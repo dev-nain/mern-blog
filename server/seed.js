@@ -1,12 +1,12 @@
-import Blog from './models/blog.js'
-import { connectDB } from './utils/db.js'
+import Blog from "./models/blog.js";
+import { connectDB } from "./utils/db.js";
 
 // Sample blog data with real content
 const blogData = [
-    {
-        title: "Getting Started with Node.js and Express",
-        subTitle: "A comprehensive guide to building web applications with Node.js",
-        body: `
+  {
+    title: "Getting Started with Node.js and Express",
+    subTitle: "A comprehensive guide to building web applications with Node.js",
+    body: `
         Node.js has revolutionized the way we build server-side applications. Combined with Express.js, it provides a powerful and flexible foundation for web development.
 
         In this tutorial, we'll explore the fundamentals of Node.js and Express, covering everything from setting up your development environment to building a fully functional web application.
@@ -52,14 +52,15 @@ const blogData = [
 
         Node.js and Express provide an excellent foundation for building modern web applications. With their event-driven, non-blocking I/O model, they're perfect for building scalable applications.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=400&fit=crop",
-        tags: ["nodejs", "express", "javascript", "web-development", "backend"],
-        publishedAt: new Date('2024-12-15')
-    },
-    {
-        title: "Understanding MongoDB and Mongoose",
-        subTitle: "Master database operations with MongoDB and Mongoose ODM",
-        body: `
+    thumbnail:
+      "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&h=400&fit=crop",
+    tags: ["nodejs", "express", "javascript", "web-development", "backend"],
+    publishedAt: new Date("2024-12-15"),
+  },
+  {
+    title: "Understanding MongoDB and Mongoose",
+    subTitle: "Master database operations with MongoDB and Mongoose ODM",
+    body: `
         MongoDB is a popular NoSQL database that stores data in flexible, JSON-like documents. When combined with Mongoose, an Object Document Mapping (ODM) library, it becomes even more powerful for Node.js applications.
 
         ## What is MongoDB?
@@ -135,14 +136,16 @@ const blogData = [
 
         MongoDB and Mongoose together provide a powerful combination for building modern applications with flexible data requirements.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
-        tags: ["mongodb", "mongoose", "database", "nodejs", "nosql"],
-        publishedAt: new Date('2024-12-10')
-    },
-    {
-        title: "Modern JavaScript ES6+ Features",
-        subTitle: "Explore the latest JavaScript features that will improve your code",
-        body: `
+    thumbnail:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
+    tags: ["mongodb", "mongoose", "database", "nodejs", "nosql"],
+    publishedAt: new Date("2024-12-10"),
+  },
+  {
+    title: "Modern JavaScript ES6+ Features",
+    subTitle:
+      "Explore the latest JavaScript features that will improve your code",
+    body: `
         JavaScript has evolved significantly over the years, with ES6 (ECMAScript 2015) and subsequent versions introducing powerful new features that make code more readable, maintainable, and efficient.
 
         ## Arrow Functions
@@ -257,14 +260,15 @@ const blogData = [
 
         These modern JavaScript features help write cleaner, more maintainable code and are essential for any JavaScript developer.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&h=400&fit=crop",
-        tags: ["javascript", "es6", "frontend", "programming", "web-development"],
-        publishedAt: new Date('2024-12-20')
-    },
-    {
-        title: "Building RESTful APIs with Express",
-        subTitle: "Learn how to create robust and scalable REST APIs",
-        body: `
+    thumbnail:
+      "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&h=400&fit=crop",
+    tags: ["javascript", "es6", "frontend", "programming", "web-development"],
+    publishedAt: new Date("2024-12-20"),
+  },
+  {
+    title: "Building RESTful APIs with Express",
+    subTitle: "Learn how to create robust and scalable REST APIs",
+    body: `
         REST (Representational State Transfer) is an architectural style for designing networked applications. Building RESTful APIs with Express.js provides a solid foundation for creating scalable web services.
 
         ## What is REST?
@@ -406,14 +410,15 @@ const blogData = [
 
         Building RESTful APIs with Express provides a solid foundation for creating scalable and maintainable web services.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=400&fit=crop",
-        tags: ["express", "rest-api", "nodejs", "backend", "web-development"],
-        publishedAt: new Date('2024-12-05')
-    },
-    {
-        title: "React Hooks: A Complete Guide",
-        subTitle: "Master React Hooks and transform your functional components",
-        body: `
+    thumbnail:
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=400&fit=crop",
+    tags: ["express", "rest-api", "nodejs", "backend", "web-development"],
+    publishedAt: new Date("2024-12-05"),
+  },
+  {
+    title: "React Hooks: A Complete Guide",
+    subTitle: "Master React Hooks and transform your functional components",
+    body: `
         React Hooks revolutionized how we write React components by allowing us to use state and other React features in functional components. This guide covers the most important hooks and their use cases.
 
         ## What are React Hooks?
@@ -608,14 +613,15 @@ const blogData = [
 
         React Hooks provide a powerful and flexible way to add state and side effects to functional components, making your code more reusable and easier to test.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop",
-        tags: ["react", "hooks", "javascript", "frontend", "web-development"],
-        publishedAt: new Date('2024-12-25')
-    },
-    {
-        title: "Docker for Developers: Complete Guide",
-        subTitle: "Learn containerization and streamline your development workflow",
-        body: `
+    thumbnail:
+      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop",
+    tags: ["react", "hooks", "javascript", "frontend", "web-development"],
+    publishedAt: new Date("2024-12-25"),
+  },
+  {
+    title: "Docker for Developers: Complete Guide",
+    subTitle: "Learn containerization and streamline your development workflow",
+    body: `
         Docker has revolutionized how we develop, ship, and run applications. By containerizing applications, Docker ensures they run consistently across different environments, from development to production.
 
         ## What is Docker?
@@ -790,14 +796,15 @@ const blogData = [
 
         Docker streamlines the development workflow and ensures consistency across all environments, making it an essential tool for modern development teams.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1605745341112-85968b19335a?w=800&h=400&fit=crop",
-        tags: ["docker", "containerization", "devops", "deployment", "development"],
-        publishedAt: null // Draft blog
-    },
-    {
-        title: "GraphQL vs REST: Choosing the Right API",
-        subTitle: "Compare GraphQL and REST to make informed API design decisions",
-        body: `
+    thumbnail:
+      "https://images.unsplash.com/photo-1605745341112-85968b19335a?w=800&h=400&fit=crop",
+    tags: ["docker", "containerization", "devops", "deployment", "development"],
+    publishedAt: null, // Draft blog
+  },
+  {
+    title: "GraphQL vs REST: Choosing the Right API",
+    subTitle: "Compare GraphQL and REST to make informed API design decisions",
+    body: `
         When building APIs, developers often face the choice between GraphQL and REST. Both have their strengths and use cases. This comprehensive comparison will help you make an informed decision.
 
         ## What is REST?
@@ -1012,59 +1019,61 @@ const blogData = [
 
         Consider your team's expertise, project requirements, and long-term maintenance when making the decision. Many successful applications use a hybrid approach, leveraging the strengths of both technologies.
         `,
-        thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
-        tags: ["graphql", "rest", "api", "web-development", "backend"],
-        publishedAt: null // Draft blog
-    }
-]
+    thumbnail:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
+    tags: ["graphql", "rest", "api", "web-development", "backend"],
+    publishedAt: null, // Draft blog
+  },
+];
 
 // Function to seed the database
 const seedBlogs = async () => {
-    try {
-        await Blog.deleteMany({})
-        console.log('Existing blogs cleared')
+  try {
+    await Blog.deleteMany({});
+    console.log("Existing blogs cleared");
 
-        const blogs = await Blog.insertMany(blogData)
-        console.log(`${blogs.length} blogs seeded successfully`)
+    const blogs = await Blog.insertMany(blogData);
+    console.log(`${blogs.length} blogs seeded successfully`);
 
-        const blogsToPublish = blogs.filter(blog => blog.publishedAt)
-        for (const blog of blogsToPublish) {
-            await blog.save()
-        }
-
-        console.log(`${blogsToPublish.length} blogs published`)
-        console.log(`${blogs.length - blogsToPublish.length} blogs saved as drafts`)
-
-        // Display summary
-        console.log('\n--- Seeding Summary ---')
-        console.log(`Total blogs created: ${blogs.length}`)
-        console.log(`Published blogs: ${blogsToPublish.length}`)
-        console.log(`Draft blogs: ${blogs.length - blogsToPublish.length}`)
-        
-        console.log('\n--- Sample Blog Titles ---')
-        blogs.forEach((blog, index) => {
-            const status = blog.publishedAt ? '✅ Published' : '📝 Draft'
-            console.log(`${index + 1}. ${blog.title} ${status}`)
-        })
-
-    } catch (error) {
-        console.error('Error seeding blogs:', error)
+    const blogsToPublish = blogs.filter((blog) => blog.publishedAt);
+    for (const blog of blogsToPublish) {
+      await blog.save();
     }
-}
+
+    console.log(`${blogsToPublish.length} blogs published`);
+    console.log(
+      `${blogs.length - blogsToPublish.length} blogs saved as drafts`
+    );
+
+    // Display summary
+    console.log("\n--- Seeding Summary ---");
+    console.log(`Total blogs created: ${blogs.length}`);
+    console.log(`Published blogs: ${blogsToPublish.length}`);
+    console.log(`Draft blogs: ${blogs.length - blogsToPublish.length}`);
+
+    console.log("\n--- Sample Blog Titles ---");
+    blogs.forEach((blog, index) => {
+      const status = blog.publishedAt ? "✅ Published" : "📝 Draft";
+      console.log(`${index + 1}. ${blog.title} ${status}`);
+    });
+  } catch (error) {
+    console.error("Error seeding blogs:", error);
+  }
+};
 
 // Main function
 const main = async () => {
-    await connectDB()
-    await seedBlogs()
-    
-    console.log('\n🎉 Seeding completed successfully!')
-    console.log('You can now start your application and view the blogs.')
-    
-    process.exit(0)
-}
+  await connectDB();
+  await seedBlogs();
+
+  console.log("\n🎉 Seeding completed successfully!");
+  console.log("You can now start your application and view the blogs.");
+
+  process.exit(0);
+};
 
 // Run the seeder
-main().catch(error => {
-    console.error('Seeding failed:', error)
-    process.exit(1)
-})
+main().catch((error) => {
+  console.error("Seeding failed:", error);
+  process.exit(1);
+});

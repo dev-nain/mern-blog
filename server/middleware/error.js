@@ -1,12 +1,12 @@
-import ApiError from '../utils/api-error.js';
-import { Error } from 'mongoose';
-import httpStatus from 'http-status';
-import logger from '../config/logger.js';
+import ApiError from "../utils/api-error.js";
+import { Error } from "mongoose";
+import httpStatus from "http-status";
+import logger from "../config/logger.js";
 
 const converter = (err, req, res, next) => {
   let error = err;
   if (!(error instanceof ApiError)) {
-    const statusCode = getStatusCode(error)
+    const statusCode = getStatusCode(error);
     const message = error.message || httpStatus[statusCode];
     error = new ApiError(statusCode, message, err.stack);
   }
@@ -14,12 +14,14 @@ const converter = (err, req, res, next) => {
 };
 
 function getStatusCode(error) {
-    return error.statusCode || error instanceof Error ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
+  return error.statusCode || error instanceof Error
+    ? httpStatus.BAD_REQUEST
+    : httpStatus.INTERNAL_SERVER_ERROR;
 }
 
 const handler = (err, req, res, next) => {
   let { statusCode, message } = err;
- 
+
   res.locals.errorMessage = err.message;
 
   const response = {
@@ -35,7 +37,7 @@ const handler = (err, req, res, next) => {
 };
 
 function notFound(req, res, next) {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
-};
+  next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
+}
 
-export default { converter,  handler, notFound };
+export default { converter, handler, notFound };
