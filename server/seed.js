@@ -1,4 +1,4 @@
-import Blog from "./models/blog.js";
+import Blog from "./models/blog.model.js";
 import { connectDB } from "./utils/db.js";
 
 // Sample blog data with real content
