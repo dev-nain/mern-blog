@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import bcrypt from "bcrypt";
 import { hashPassword } from "../utils/hash-password.js";
 
 const userSchema = new Schema(
