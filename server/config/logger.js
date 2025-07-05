@@ -1,5 +1,5 @@
-import winston from 'winston';
-import config from './config.js';
+import winston from "winston";
+import config from "./config.js";
 
 const enumerateErrorFormat = winston.format((info) => {
   if (info instanceof Error) {
@@ -9,7 +9,7 @@ const enumerateErrorFormat = winston.format((info) => {
 });
 
 const logger = winston.createLogger({
-  level:  config.log_level,
+  level: config.log_level,
   format: winston.format.combine(
     enumerateErrorFormat(),
     winston.format.colorize(),
@@ -19,9 +19,9 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console({
-      stderrLevels: ['error'],
+      stderrLevels: ["error"],
     }),
   ],
 });
 
-export default logger
+export default logger;

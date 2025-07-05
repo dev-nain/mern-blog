@@ -1,27 +1,28 @@
-import express from 'express'
-import error from './middleware/error.js'
-import config from './config/config.js'
-import { connectDB } from './utils/db.js'
-import blogRouter from './routes/blogs.js'
+import express from "express";
+import cookieParser from "cookie-parser";
 
+import error from "./middleware/error.middleware.js";
+import config from "./config/config.js";
+import { connectDB } from "./utils/db.js";
+import router from "./routes/v1/index.js";
 
-connectDB()
+connectDB();
 
-const app = express()
-app.use(express.json())
-
+const app = express();
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-    res.send("App is running")
-})
+  res.send("App is running");
+});
 
-app.use('/blogs', blogRouter)
-app.use(error.notFound)
-app.use(error.converter)
-app.use(error.handler)
-
-
+app.use("/", router);
+app.use(error.notFound);
+app.use(error.handler);
 
 app.listen(config.port, () => {
-    console.log(`App running on port: ${config.port}`)
-})
+  console.log(
+    `App running on: http://localhost:${config.port} - ${process.env.NODE_ENV}`
+  );
+});
