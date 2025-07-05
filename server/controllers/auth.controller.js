@@ -9,7 +9,6 @@ import { generateToken } from "../utils/token.js";
 
 const client = new OAuth2Client(config.google_client_id);
 
-
 export const register = catchAsync(async (req, res) => {
   const { name, email, password } = registerSchema.parse(req.body);
 
@@ -21,7 +20,11 @@ export const register = catchAsync(async (req, res) => {
 
   res
     .status(201)
-    .json({ message: "User created successfully", user: userWithoutPassword, token });
+    .json({
+      message: "User created successfully",
+      user: userWithoutPassword,
+      token,
+    });
 });
 
 export const login = catchAsync(async (req, res) => {
@@ -54,10 +57,11 @@ export const googleAuth = catchAsync(async (req, res) => {
 
   const ticket = await client.verifyIdToken({
     idToken,
-    audience: config.google_client_id, 
+    audience: config.google_client_id,
   });
 
   const payload = ticket.getPayload();
+
   const { email, sub: googleId, name, picture } = payload;
 
   let user = await User.findOne({ email });
@@ -65,7 +69,7 @@ export const googleAuth = catchAsync(async (req, res) => {
   if (!user) {
     user = await User.create({
       email,
-      fullName: name,
+      name,
       avatar: picture,
       googleId,
     });
@@ -77,6 +81,11 @@ export const googleAuth = catchAsync(async (req, res) => {
 
   const token = generateToken(user._id);
 
-  res.status(200).json({ message: "Login successful", token, user });
-});
+  const userWithoutPassword = user.toObject();
+  delete userWithoutPassword.password;
+  delete userWithoutPassword.googleId;
 
+  res
+    .status(200)
+    .json({ message: "Login successful", token, user: userWithoutPassword });
+});
