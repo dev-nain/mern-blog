@@ -45,20 +45,18 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await hashPassword(this.password);
-  next();
-});
-
-userSchema.pre("save", async function (next) {
+  // Generate a username if it doesn't exist
   if (!this.username) {
     let username = this.email.split("@")[0];
-    const alreadyExist = await User.findOne({ username });
-    if (alreadyExist) {
+    const usernameExist = await this.constructor.findOne({ username });
+    if (usernameExist) {
       username = `${username}-${nanoid(4)}`;
     }
     this.username = username;
   }
+  // Hash the password if it has been modified
+  if (!this.isModified("password")) return next();
+  this.password = await hashPassword(this.password);
   next();
 });
 
