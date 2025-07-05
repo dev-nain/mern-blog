@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { hashPassword } from "../utils/hash-password.js";
+import { nanoid } from "nanoid";
 
 const userSchema = new Schema(
   {
@@ -10,6 +11,7 @@ const userSchema = new Schema(
       minlength: [6, "Name must be at least 6 characters long"],
       maxlength: [50, "Name must be at most 50 characters long"],
     },
+    username: String,
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -25,13 +27,11 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long"],
     },
-    role: {
+    googleId: {
       type: String,
-      enum: ["admin", "user"],
-      default: "user",
+      default: null,
     },
     avatar: {
       type: String,
@@ -45,6 +45,16 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
+  // Generate a username if it doesn't exist
+  if (!this.username) {
+    let username = this.email.split("@")[0];
+    const usernameExist = await this.constructor.findOne({ username });
+    if (usernameExist) {
+      username = `${username}-${nanoid(4)}`;
+    }
+    this.username = username;
+  }
+  // Hash the password if it has been modified
   if (!this.isModified("password")) return next();
   this.password = await hashPassword(this.password);
   next();

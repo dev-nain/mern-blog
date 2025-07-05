@@ -1,6 +1,3 @@
-import Blog from "../models/blog.model.js";
-
-
 export async function getBlogs(req, res) {
   res.json({
     message: "Blogs fetched successfully",
@@ -19,7 +16,7 @@ export async function getBlogBySlug(req, res) {
   });
 }
 
-export async function updateBlog(req, res) { 
+export async function updateBlog(req, res) {
   res.json({
     message: "Blog updated successfully",
   });

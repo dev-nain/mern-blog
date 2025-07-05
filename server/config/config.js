@@ -19,6 +19,7 @@ const config = {
   log_level: LOG_LEVEL,
   jwt_secret: JWT_SECRET,
   jwt_expires_in: JWT_EXPIRES_IN,
+  google_client_id: '',
 };
 
 export default config;
