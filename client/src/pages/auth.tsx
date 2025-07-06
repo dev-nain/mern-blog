@@ -105,7 +105,7 @@ const Auth = ({ type = "signup" }: Props) => {
             onChange={(e) => handleFormChange("password")(e.target.value)}
             error={formErrors?.password?.join(", ")}
           />
-          <Button className="mt-8 w-full capitalize">{type}</Button>
+          <Button className="mt-8 w-full capitalize" loading={mutation.isPending} disabled={mutation.isPending}>{type}</Button>
         </form>
         <div className="relative w-full flex items-center gap-2 my-10 opacity-30 uppercase text-black font-bold">
           <hr className="w-1/2 border-black" />
@@ -114,7 +114,7 @@ const Auth = ({ type = "signup" }: Props) => {
         </div>
 
         <div>
-          <Button className="w-full">Continue With Google</Button>
+          <Button className="w-full" onClick={() => alert("Not implemented yet")}>Continue With Google</Button>
 
           {type === "signup" ? (
             <p className="text-center mt-6 text-dark-grey">
