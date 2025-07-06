@@ -10,7 +10,7 @@ import router from "./routes/v1/index.js";
 connectDB();
 
 const app = express();
-app.use(cors("*"));
+app.use(cors({ origin: "*" }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

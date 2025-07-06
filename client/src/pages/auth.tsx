@@ -30,9 +30,11 @@ const Auth = ({ type = "signup" }: Props) => {
 
   const { setUser, user } = useAuth();
 
-  if (user) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const mutation = useMutation({
     mutationFn: type === "signin" ? login : register,
