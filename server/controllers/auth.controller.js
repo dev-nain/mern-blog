@@ -17,14 +17,13 @@ export const register = catchAsync(async (req, res) => {
 
   const userWithoutPassword = user.toObject();
   delete userWithoutPassword.password;
+  delete userWithoutPassword.googleId;
 
-  res
-    .status(201)
-    .json({
-      message: "User created successfully",
-      user: userWithoutPassword,
-      token,
-    });
+  res.status(201).json({
+    message: "User created successfully",
+    user: userWithoutPassword,
+    token,
+  });
 });
 
 export const login = catchAsync(async (req, res) => {
@@ -46,6 +45,7 @@ export const login = catchAsync(async (req, res) => {
 
   const userWithoutPassword = user.toObject();
   delete userWithoutPassword.password;
+  delete userWithoutPassword.googleId;
 
   res
     .status(200)
@@ -88,4 +88,11 @@ export const googleAuth = catchAsync(async (req, res) => {
   res
     .status(200)
     .json({ message: "Login successful", token, user: userWithoutPassword });
+});
+
+export const getProfile = catchAsync(async (req, res) => {
+  const user = req.user.toObject();
+  delete user.password;
+  delete user.googleId;
+  res.status(200).json({ user });
 });

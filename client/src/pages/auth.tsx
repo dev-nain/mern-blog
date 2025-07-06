@@ -1,17 +1,50 @@
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
-import { Link } from "react-router";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { login, register } from "../services/api";
+import toast from "react-hot-toast";
+import { useAuth } from "../context/auth-context";
+import { authSchema } from "../validations";
+import type z from "zod";
+import { setToken } from "../services/api-client";
 
 type Props = {
   type: "signup" | "signin";
 };
 
+type FormErrors = z.inferFlattenedErrors<typeof authSchema>["fieldErrors"];
+
+const initialFormData = {
+  name: "",
+  email: "",
+  password: "",
+};
+
 const Auth = ({ type = "signup" }: Props) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+  const [formData, setFormData] = useState(initialFormData);
+
+  const [formErrors, setFormErrors] = useState<FormErrors | null>();
+  const navigate = useNavigate();
+
+  const { setUser, user } = useAuth();
+
+  if (user) {
+    navigate("/");
+  }
+
+  const mutation = useMutation({
+    mutationFn: type === "signin" ? login : register,
+    onSuccess: (data) => {
+      toast.success("Login Successful");
+      setToken(data.token);
+      setUser(data.user);
+      window.location.href = "/";
+    },
+    onError: () => {
+      toast.error("Login failed");
+    },
   });
 
   const handleFormChange = (key: keyof typeof formData) => (val: string) => {
@@ -20,8 +53,21 @@ const Auth = ({ type = "signup" }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+
+    const validation = authSchema.safeParse({ ...formData, type });
+
+    if (!validation.success) {
+      setFormErrors(validation.error.flatten().fieldErrors);
+      return;
+    }
+
+    mutation.mutate(formData);
   };
+
+  useEffect(() => {
+    setFormData(initialFormData);
+    setFormErrors(null);
+  }, [type]);
 
   return (
     <main className="flex justify-center items-center h-screen">
@@ -38,11 +84,16 @@ const Auth = ({ type = "signup" }: Props) => {
               icon="user"
               value={formData.name}
               onChange={(e) => handleFormChange("name")(e.target.value)}
+              error={formErrors?.name?.join(", ")}
             />
           )}
-          <Input type="email" icon="mail" placeholder="Email"
+          <Input
+            type="email"
+            icon="mail"
+            placeholder="Email"
             value={formData.email}
             onChange={(e) => handleFormChange("email")(e.target.value)}
+            error={formErrors?.email?.join(", ")}
           />
           <Input
             type="password"
@@ -50,6 +101,7 @@ const Auth = ({ type = "signup" }: Props) => {
             placeholder="Password"
             value={formData.password}
             onChange={(e) => handleFormChange("password")(e.target.value)}
+            error={formErrors?.password?.join(", ")}
           />
           <Button className="mt-8 w-full capitalize">{type}</Button>
         </form>

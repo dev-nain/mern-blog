@@ -1,22 +1,19 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AppRoutes from "./Routes";
 import "./App.css";
-import Auth from "./pages/auth";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/auth-context";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route index element={<>Home Page</>} />
-            <Route>
-              <Route path="sign-up" element={<Auth type="signup" />} />
-              <Route path="sign-in" element={<Auth type="signin" />} />
-            </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Toaster position="top-center" reverseOrder={false} />
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 
