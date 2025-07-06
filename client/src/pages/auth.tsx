@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../context/auth-context";
 import { authSchema } from "../validations";
 import type z from "zod";
-import { setToken } from "../services/api-client";
+import { setToken } from "../services/session";
 
 type Props = {
   type: "signup" | "signin";

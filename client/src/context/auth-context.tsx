@@ -6,7 +6,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import type { User } from "../services/types";
-import { getToken } from "../services/api-client";
+import { getToken, removeToken, isTokenExpired } from "../services/session";
 import { getProfile } from "../services/api";
 
 type AuthContextType = {
@@ -21,15 +21,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log(getToken());
-    if (getToken()) {
+    if (getToken() && !isTokenExpired()) {
       getProfile()
         .then((res) => {
-          console.log("res", res);
           setUser(res.user);
         })
-        .catch(() => setUser(null))
+        .catch(() => {
+          setUser(null);
+          removeToken();
+        })
         .finally(() => setIsLoading(false));
+    } else {
+      removeToken();
+      setUser(null);
+      setIsLoading(false);
     }
   }, []);
 
