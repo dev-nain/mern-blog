@@ -1,42 +1,32 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Gelasio&family=Inter:ital,wght@0,400..700;1,400..700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-white: #ffffff;
+  --color-black: #242424;
+  --color-grey: #f3f3f3;
+  --color-dark-grey: #6b6b6b;
+  --color-red: #ff4e4e;
+  --color-transparent: transparent;
+  --color-link: #1da1f2;
+  --color-purple: #8b46ff;
+
+  --font-gelasio: "Gelasio", sans-serif;
+  --font-inter: "Inter", serif;
+  --text-base: 16px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@layer components {
+  .input-field {
+    @apply w-full rounded-md p-3 bg-grey border-grey text-sm placeholder:text-gray-500 text-dark-grey focus:outline-none border  focus:bg-transparent transition duration-200;
   }
-  to {
-    transform: rotate(360deg);
+
+  input:disabled,
+  input:disabled ~ .input-icon {
+    @apply opacity-50;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .input-icon {
+    @apply absolute left-4 top-1/2 -translate-y-1/2;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

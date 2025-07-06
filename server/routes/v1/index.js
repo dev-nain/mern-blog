@@ -5,7 +5,7 @@ import authRouter from "./auth.route.js";
 
 const router = Router();
 
-router.use("/v1/blogs", blogRouter);
-router.use("/v1/auth", authRouter);
+router.use("/api/v1/blogs", blogRouter);
+router.use("/api/v1/auth", authRouter);
 
 export default router;
