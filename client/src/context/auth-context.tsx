@@ -12,6 +12,7 @@ import { getProfile } from "../services/api";
 type AuthContextType = {
   user: User | null;
   setUser: (user: User) => void;
+  isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);

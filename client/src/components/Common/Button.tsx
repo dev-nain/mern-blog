@@ -10,14 +10,14 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-black text-white",
-        secondary: "bg-grey text-black hover:bg-gray-300",
+        secondary: "bg-grey text-dark-grey hover:bg-gray-300",
         outline: "border border-black text-black hover:bg-gray-100",
-        naked: "text-black hover:bg-gray-100",
+        naked: "text-dark-grey hover:bg-gray-100",
       },
       size: {
-        sm: "px-3 py-1 text-sm",
-        md: "px-4 py-2 text-base",
-        lg: "px-5 py-3 text-lg",
+        sm: "px-3 py-1 text-xs",
+        md: "px-4 py-2 text-sm",
+        lg: "px-5 py-3 text-base",
       },
     },
     defaultVariants: {
@@ -45,7 +45,11 @@ export const Button = ({
 }: Props & ComponentProps<"button">) => {
   return (
     <button
-      className={clsx(buttonVariants({ variant, size }), className, loading && "opacity-70 cursor-not-allowed")}
+      className={clsx(
+        buttonVariants({ variant, size }),
+        className,
+        loading && "opacity-70 cursor-not-allowed"
+      )}
       disabled={loading || props.disabled}
       {...props}
     >

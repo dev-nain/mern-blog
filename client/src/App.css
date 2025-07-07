@@ -17,6 +17,9 @@
 }
 
 @layer components {
+  body {
+    @apply font-inter font-normal text-black;
+  }
   .input-field {
     @apply w-full rounded-md p-3 bg-grey border-grey text-sm placeholder:text-gray-500 text-dark-grey focus:outline-none border  focus:bg-transparent transition duration-200;
   }

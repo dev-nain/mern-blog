@@ -1,11 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import Auth from "./pages/auth";
+import MainLayout from "./components/Layout/MainLayout";
+import { AnimatePresence } from "motion/react";
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
+    <AnimatePresence mode="wait">
       <Routes>
-        <Route path="/">
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<>Home Page</>} />
           <Route>
             <Route path="sign-up" element={<Auth type="signup" />} />
@@ -13,7 +15,7 @@ const AppRoutes = () => {
           </Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </AnimatePresence>
   );
 };
 
