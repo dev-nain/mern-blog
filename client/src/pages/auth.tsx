@@ -1,5 +1,5 @@
-import { Input } from "../components/Input";
-import { Button } from "../components/Button";
+import { Input } from "../components/Common/Input";
+import { Button } from "../components/Common/Button";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import { useAuth } from "../context/auth-context";
 import { authSchema } from "../validations";
 import type z from "zod";
 import { setToken } from "../services/session";
+import PageTransition from "../components/Common/page-transition";
 
 type Props = {
   type: "signup" | "signin";
@@ -42,7 +43,7 @@ const Auth = ({ type = "signup" }: Props) => {
       toast.success("Login Successful");
       setToken(data.token);
       setUser(data.user);
-      window.location.href = "/";
+      navigate("/", { replace: true });
     },
     onError: () => {
       toast.error("Login failed");
@@ -72,7 +73,7 @@ const Auth = ({ type = "signup" }: Props) => {
   }, [type]);
 
   return (
-    <main className="flex justify-center items-center h-screen">
+    <PageTransition className="flex justify-center items-center h-screen">
       <section className="w-sm">
         <h2 className="text-4xl mb-8 font-gelasio text-black text-center">
           {type === "signup" ? "Join Us Today" : "Welcome Back"}
@@ -105,7 +106,13 @@ const Auth = ({ type = "signup" }: Props) => {
             onChange={(e) => handleFormChange("password")(e.target.value)}
             error={formErrors?.password?.join(", ")}
           />
-          <Button className="mt-8 w-full capitalize" loading={mutation.isPending} disabled={mutation.isPending}>{type}</Button>
+          <Button
+            className="mt-8 w-full capitalize"
+            loading={mutation.isPending}
+            disabled={mutation.isPending}
+          >
+            {type}
+          </Button>
         </form>
         <div className="relative w-full flex items-center gap-2 my-10 opacity-30 uppercase text-black font-bold">
           <hr className="w-1/2 border-black" />
@@ -114,7 +121,12 @@ const Auth = ({ type = "signup" }: Props) => {
         </div>
 
         <div>
-          <Button className="w-full" onClick={() => alert("Not implemented yet")}>Continue With Google</Button>
+          <Button
+            className="w-full"
+            onClick={() => alert("Not implemented yet")}
+          >
+            Continue With Google
+          </Button>
 
           {type === "signup" ? (
             <p className="text-center mt-6 text-dark-grey">
@@ -133,7 +145,7 @@ const Auth = ({ type = "signup" }: Props) => {
           )}
         </div>
       </section>
-    </main>
+    </PageTransition>
   );
 };
 

@@ -10,7 +10,6 @@ const registerSchema = z.object({
     .max(50, { message: "Name cannot exceed 50 characters" }),
   email: z
     .string()
-    .min(3, { message: "Email must be at least 3 characters long" })
     .max(255, { message: "Email cannot exceed 255 characters" })
     .regex(emailRegex, { message: "Please enter a valid email address" }),
   password: z
@@ -22,7 +21,6 @@ const loginSchema = z.object({
   type: z.literal("signin"),
   email: z
     .string()
-    .min(3, { message: "Email must be at least 3 characters long" })
     .max(255, { message: "Email cannot exceed 255 characters" })
     .regex(emailRegex, { message: "Please enter a valid email address" }),
   password: z

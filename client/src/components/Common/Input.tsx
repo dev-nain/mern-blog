@@ -34,7 +34,7 @@ export const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <>
+    <div>
       <div className="relative">
         <input
           type={inputType}
@@ -72,7 +72,7 @@ export const Input: React.FC<InputProps> = ({
           </button>
         )}
       </div>
-      {error && <p className="mt-2 text-sm text-red-600 text-left">{error}</p>}
-    </>
+      {error && <p className="mt-1 text-sm text-red-600 text-left">{error}</p>}
+    </div>
   );
 };
