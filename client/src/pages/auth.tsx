@@ -19,8 +19,8 @@ type FormErrors = z.inferFlattenedErrors<typeof authSchema>["fieldErrors"];
 
 const initialFormData = {
   name: "",
-  email: "",
-  password: "",
+  email: import.meta.env.DEV ? "dev.nain@email.com" : "",
+  password: import.meta.env.DEV ? "dev-nain" : "",
 };
 
 const Auth = ({ type = "signup" }: Props) => {

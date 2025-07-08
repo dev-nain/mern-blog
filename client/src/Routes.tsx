@@ -1,7 +1,13 @@
 import { Route, Routes } from "react-router";
-import Auth from "./pages/auth";
-import MainLayout from "./components/Layout/MainLayout";
 import { AnimatePresence } from "motion/react";
+
+// Pages Imports
+
+import Auth from "@/pages/auth";
+import NewStoryPage from "@/pages/new-story";
+
+// Components Imports
+import MainLayout from "@/components/Layout/MainLayout";
 
 const AppRoutes = () => {
   return (
@@ -9,10 +15,10 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<>Home Page</>} />
-          <Route>
-            <Route path="sign-up" element={<Auth type="signup" />} />
-            <Route path="sign-in" element={<Auth type="signin" />} />
-          </Route>
+          <Route path="new-story" element={<NewStoryPage />} />
+
+          <Route path="sign-up" element={<Auth type="signup" />} />
+          <Route path="sign-in" element={<Auth type="signin" />} />
         </Route>
       </Routes>
     </AnimatePresence>
