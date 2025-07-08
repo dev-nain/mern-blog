@@ -3,6 +3,7 @@ import { useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import type { BlockNoteEditor } from "@blocknote/core";
+import { useEffect } from "react";
 
 export default function StoryEditor({
   onChange,
@@ -12,9 +13,14 @@ export default function StoryEditor({
   initialContent: BlockNoteEditor["document"] | null;
 }) {
   const editor = useCreateBlockNote({
-    _tiptapOptions: { autofocus: true },
     ...(initialContent ? { initialContent } : {}),
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.focus();
+    }
+  }, [editor]);
 
   return (
     <BlockNoteView

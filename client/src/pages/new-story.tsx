@@ -6,11 +6,9 @@ const NewStoryPage = () => {
   const [content, setContent] = useState<BlockNoteEditor["document"] | null>(
     null
   );
-  return (
-    <div>
-      <StoryEditor onChange={setContent} initialContent={content} />
-    </div>
-  );
+  const [initilContent] = useState<BlockNoteEditor["document"] | null>(null);
+
+  return <StoryEditor onChange={setContent} initialContent={initilContent} />;
 };
 
 export default NewStoryPage;

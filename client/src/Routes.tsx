@@ -4,7 +4,7 @@ import { AnimatePresence } from "motion/react";
 // Pages Imports
 
 import Auth from "@/pages/auth";
-import NewStoryPage from "./pages/new-story";
+import NewStoryPage from "@/pages/new-story";
 
 // Components Imports
 import MainLayout from "@/components/Layout/MainLayout";
