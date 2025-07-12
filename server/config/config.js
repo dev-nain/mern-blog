@@ -9,7 +9,7 @@ const envSchema = z.object({
   MONGO_URL: z.string(),
   JWT_SECRET: z.string(),
   JWT_EXPIRES_IN: z.string().default("7d"),
-  IMAGE_KIT_PUPLIC_KEY: z.string(),
+  IMAGE_KIT_PUBLIC_KEY: z.string(),
   IMAGE_KIT_PRIVATE_KEY: z.string(),
   IMAGE_KIT_APP_ID: z.string(),
 });
@@ -22,7 +22,7 @@ const {
   JWT_EXPIRES_IN,
   IMAGE_KIT_APP_ID,
   IMAGE_KIT_PRIVATE_KEY,
-  IMAGE_KIT_PUPLIC_KEY,
+  IMAGE_KIT_PUBLIC_KEY,
 } = envSchema.parse(process.env);
 
 const config = {
@@ -33,7 +33,7 @@ const config = {
   jwt_expires_in: JWT_EXPIRES_IN,
   google_client_id: "",
   imagekit: {
-    public_key: IMAGE_KIT_PUPLIC_KEY,
+    public_key: IMAGE_KIT_PUBLIC_KEY,
     private_key: IMAGE_KIT_PRIVATE_KEY,
     app_id: IMAGE_KIT_APP_ID,
   },

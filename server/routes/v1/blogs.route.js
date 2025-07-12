@@ -12,7 +12,20 @@ import authorize from "../../middleware/auth.middleware.js";
 
 const storage = Multer.memoryStorage();
 
-const multer = Multer({ storage });
+const multer = Multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Invalid file type. Only JPEG, PNG, and WebP are allowed."));
+    }
+  },
+});
 
 const router = Router();
 

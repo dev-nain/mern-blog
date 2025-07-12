@@ -7,6 +7,7 @@ import {
 } from "../utils/reading-time.js";
 import Tag from "../models/tag.model.js";
 import Blog from "../models/blog.model.js";
+import ApiError from "../utils/api-error.js";
 
 export const getBlogs = catchAsync(async (req, res) => {
   const publishedBlogs = await Blog.find({
@@ -16,7 +17,6 @@ export const getBlogs = catchAsync(async (req, res) => {
     .populate("tags")
     .populate("author", "username name avatar");
 
-
   res.json({
     data: publishedBlogs,
   });
@@ -25,10 +25,11 @@ export const getBlogs = catchAsync(async (req, res) => {
 async function getTagIds(tags) {
   const tagIds = [];
   for (let name of tags) {
-    let tag = await Tag.findOne({ name });
-    if (!tag) {
-      tag = await Tag.create({ name });
-    }
+    const tag = await Tag.findOneAndUpdate(
+      { name },
+      { name },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
     tagIds.push(tag._id);
   }
   return tagIds;
@@ -39,8 +40,16 @@ export const createBlog = catchAsync(async (req, res) => {
     req.body
   );
   const author = req.user;
+  let text;
+  try {
+    text = extractTextFromBlocks(JSON.parse(content));
+  } catch (error) {
+    throw new ApiError(
+      400,
+      "Invalid content format: content must be valid JSON"
+    );
+  }
 
-  const text = extractTextFromBlocks(JSON.parse(content));
   const readingTime = calculateReadingTime(text);
 
   const tagIds = await getTagIds(tags);
@@ -53,12 +62,12 @@ export const createBlog = catchAsync(async (req, res) => {
     summary,
     title,
     thumbnail,
-    publishedAt: type === "publish" ? new Date().toISOString() : null,
+    publishedAt: type === "publish" ? new Date() : null,
   });
 
-  res
-    .status(201)
-    .json({ data: (await blog.populate("author")).populate("tags") });
+  const populatedBlog = await blog.populate(["author", "tags"]);
+
+  res.status(201).json({ data: populatedBlog });
 });
 
 export async function getBlogBySlug(req, res) {
