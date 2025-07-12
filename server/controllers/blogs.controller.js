@@ -90,6 +90,9 @@ export async function deleteBlog(req, res) {
 
 export const uploadImage = catchAsync(async (req, res) => {
   const image = req.file;
+  if(!image) {
+    throw new ApiError(400, "No image file provided")
+  }
   const uploadedImage = await imagekit.upload({
     file: image.buffer,
     fileName: image.originalname,
