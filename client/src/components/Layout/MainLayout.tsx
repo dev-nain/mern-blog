@@ -14,9 +14,7 @@ const MainLayout = () => {
     <>
       <header>
         <nav className="flex justify-between px-[5vw] md:px-[7vw] py-2 border-b border-b-grey">
-          <Link to="/">
-            <img src="/logo.png" alt="Brand Image" className="size-8" />
-          </Link>
+          <AppLogo />
           <ul className="flex items-center space-x-2">
             <li>
               <LinkButton
@@ -64,5 +62,14 @@ function LoadingScreen() {
         Loading, please wait...
       </p>
     </main>
+  );
+}
+
+export function AppLogo() {
+  return (
+    <Link to="/" className="space-x-2 flex items-center font-gelasio ">
+      <img src="/logo.png" alt="Brand Image" className="size-8" />
+      <span className="text-zinc-800 font-bold tracking-widest">DevBlog</span>
+    </Link>
   );
 }

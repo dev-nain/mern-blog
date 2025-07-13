@@ -11,3 +11,26 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+
+export type CreateBlogPayload = {
+  title: string;
+  summary: string;
+  type: "publish" | "draft";
+  tags: string[];
+  content: string;
+  thumbnail: string;
+};
+
+export type Blog = {
+  _id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  type: "publish" | "draft";
+  tags: string[];
+  content: string;
+  thumbnail: string;
+  readingTime: { minutes: number; text: string };
+  author: User;
+  publishedAt: string | null;
+};
