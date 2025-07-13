@@ -5,7 +5,6 @@ const FILE_SIZE_LIMIT = 5 * 1024 * 1024;
 const ALLOWED_FILE_TYPES = [
   "image/png",
   "image/jpeg",
-  "image/jpg",
   "image/svg+xml",
   "image/gif",
   "image/webp",
@@ -53,9 +52,14 @@ export const IMAGE_SCHEMA = z
 
 export const blogSchema = z.object({
   title: z.string().trim().min(3).max(255),
-  summary: z.string().trim().max(200),
+  summary: z.string().trim().min(10).max(200),
   thumbnail: IMAGE_SCHEMA,
-  tags: z.array(z.string().trim()).max(5),
-  content: z.string(),
+  tags: z
+    .array(z.string().trim())
+    .max(5)
+    .refine((tags) => new Set(tags).size === tags.length, {
+      message: "Tags must be unique",
+    }),
+  content: z.string().min(1, { message: "Content cannot be empty" }),
   type: z.enum(["draft", "publish"]).default("publish"),
 });

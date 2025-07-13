@@ -4,6 +4,7 @@ import StoryThumbnailPicker from "@/components/new-story/story-thumbnal-picker";
 import StoryTitleInput from "@/components/new-story/story-title";
 import Topbar from "@/components/new-story/topbar";
 import type { BlockNoteEditor } from "@blocknote/core";
+import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 
 export type StoryType = "publish" | "draft";
@@ -64,11 +65,13 @@ const NewStoryPage = () => {
       )}
 
       {story.type && (
-        <PublishForm
-          story={story}
-          onStoryChange={handleFormChange}
-          onClose={() => handleFormChange("type")(null)}
-        />
+        <AnimatePresence>
+          <PublishForm
+            story={story}
+            onStoryChange={handleFormChange}
+            onClose={() => handleFormChange("type")(null)}
+          />
+        </AnimatePresence>
       )}
     </main>
   );

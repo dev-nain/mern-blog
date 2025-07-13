@@ -23,7 +23,7 @@ export default function StoryEditor({
       ...locale,
       placeholders: {
         ...locale.placeholders,
-        default: "Tell you story...",
+        default: "Tell your story...",
       },
     },
     codeBlock,

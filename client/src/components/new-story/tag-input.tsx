@@ -1,6 +1,5 @@
-"use client";
-
-import { useState, type KeyboardEvent, type ChangeEvent } from "react";
+import { useState } from "react";
+import type { KeyboardEvent, ChangeEvent } from "react";
 
 interface TagsInputProps {
   placeholder?: string;
@@ -15,31 +14,37 @@ export default function TagsInput({
   onTagsChange,
   initialTags = [],
 }: TagsInputProps) {
-  const [tags, setTags] = useState<string[]>(initialTags);
+  const [tagsSet, setTagsSet] = useState<Set<string>>(new Set(initialTags));
   const [inputValue, setInputValue] = useState("");
 
   const addTag = (tag: string) => {
     const trimmedTag = tag.trim();
-    if (trimmedTag && !tags.includes(trimmedTag) && tags.length < maxTags) {
-      const newTags = [...tags, trimmedTag];
-      setTags(newTags);
-      onTagsChange?.(newTags);
-      setInputValue("");
-    }
+    if (!trimmedTag || tagsSet.has(trimmedTag) || tagsSet.size >= maxTags)
+      return;
+
+    const updatedSet = new Set(tagsSet);
+    updatedSet.add(trimmedTag);
+    setTagsSet(updatedSet);
+    onTagsChange?.(Array.from(updatedSet));
+    setInputValue("");
   };
 
   const removeTag = (indexToRemove: number) => {
-    const newTags = tags.filter((_, index) => index !== indexToRemove);
-    setTags(newTags);
-    onTagsChange?.(newTags);
+    const tagsArray = Array.from(tagsSet);
+    const tagToRemove = tagsArray[indexToRemove];
+    if (!tagToRemove) return;
+
+    const updatedSet = new Set(tagsArray.filter((_, i) => i !== indexToRemove));
+    setTagsSet(updatedSet);
+    onTagsChange?.(Array.from(updatedSet));
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
       addTag(inputValue);
-    } else if (e.key === "Backspace" && inputValue === "" && tags.length > 0) {
-      removeTag(tags.length - 1);
+    } else if (e.key === "Backspace" && inputValue === "" && tagsSet.size > 0) {
+      removeTag(tagsSet.size - 1);
     }
   };
 
@@ -48,12 +53,11 @@ export default function TagsInput({
   };
 
   const handleInputBlur = () => {
-    if (inputValue.trim()) {
-      addTag(inputValue);
-    }
+    if (inputValue.trim()) addTag(inputValue);
   };
 
-  const isMaxReached = tags.length >= maxTags;
+  const tags = Array.from(tagsSet);
+  const isMaxReached = tagsSet.size >= maxTags;
 
   return (
     <>

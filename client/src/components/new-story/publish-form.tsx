@@ -49,7 +49,7 @@ const PublishForm = ({ story, onStoryChange, onClose }: Props) => {
     const formdata = new FormData();
     formdata.set("image", validation.data.thumbnail);
     const res = await uploadImage(formdata);
-    if (!res.filePath) {
+    if (!res?.filePath) {
       toast.error("Failed to create blog");
       return;
     }
@@ -66,12 +66,13 @@ const PublishForm = ({ story, onStoryChange, onClose }: Props) => {
   }
 
   return (
-    <FormWrapper className="relative lg:px-[15vw] md:px-[7vw] px-[5vw] grid grid-cols-1 space-x-16 lg:grid-cols-2 space-y-6 pt-20">
+    <FormWrapper className="relative lg:px-[15vw] md:px-[7vw] px-[5vw] grid grid-cols-1 gap-x-16 lg:grid-cols-2 space-y-6 pt-20">
       <Button
         variant="naked"
         size="sm"
         className="absolute top-4 right-1"
         onClick={onClose}
+        aria-label="Close publish form"
       >
         <XIcon className="size-4 text-gray-500" />
       </Button>
@@ -111,6 +112,7 @@ const PublishForm = ({ story, onStoryChange, onClose }: Props) => {
             variant={"green"}
             disabled={!story.title}
             onClick={handleSubmit}
+            loading={isCreating}
           >
             {getButtonLabel()}
           </Button>
@@ -130,16 +132,14 @@ const FormWrapper = ({
   className,
 }: PropsWithChildren & PropsWithClassname) => {
   return (
-    <AnimatePresence>
-      <motion.section
-        variants={formVariants}
-        className={cn(className)}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
-        {children}
-      </motion.section>
-    </AnimatePresence>
+    <motion.section
+      variants={formVariants}
+      className={cn(className)}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      {children}
+    </motion.section>
   );
 };

@@ -22,6 +22,11 @@ const StoryThumbnailPicker = ({
       toast.error(error.flatten().formErrors.join(", "));
       return;
     }
+
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+
     onChange(file);
     const fileUrl = URL.createObjectURL(file);
     setPreview(fileUrl);
@@ -35,6 +40,8 @@ const StoryThumbnailPicker = ({
     if (value) {
       const fileUrl = URL.createObjectURL(value);
       setPreview(fileUrl);
+
+      return () => URL.revokeObjectURL(fileUrl);
     }
   }, [value]);
 

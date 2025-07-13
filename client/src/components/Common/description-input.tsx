@@ -8,23 +8,21 @@ export default function DescriptionInput({
   id,
   onChange,
   value,
-  error
+  error,
 }: {
   onChange: (text: string) => void;
   value: string;
   label: string;
   id: string;
-  error?: string
+  error?: string;
 }) {
-  const [description, setDescription] = useState(value);
   const maxLength = 200;
-  const currentLength = description.length;
+  const currentLength = value.length;
   const isNearLimit = currentLength > maxLength * 0.8;
   const isOverLimit = currentLength > maxLength;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxLength) {
-      setDescription(e.target.value);
       onChange(e.target.value);
     }
   };
@@ -37,7 +35,7 @@ export default function DescriptionInput({
         </label>
         <textarea
           id={id}
-          value={description}
+          value={value}
           onChange={handleChange}
           placeholder="Enter a brief description or summary..."
           className={cn(
@@ -54,9 +52,7 @@ export default function DescriptionInput({
           rows={4}
         />
         <div className="flex justify-between items-center text-sm">
-          <p className="text-red-600 text-sm">
-            {error}
-          </p>
+          <p className="text-red-600 text-sm">{error}</p>
           <span
             className={`font-medium ${
               isOverLimit

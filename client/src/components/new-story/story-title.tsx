@@ -12,6 +12,7 @@ function StoryTitleInput({
 }) {
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     const input = e.target;
+    input.style.height = "auto";
     input.style.height = input.scrollHeight + "px";
     onChange(input.value);
   };
@@ -19,7 +20,7 @@ function StoryTitleInput({
   const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
-    if (event.code === "13") {
+    if (event.key === "Enter") {
       event.preventDefault();
     }
   };
@@ -38,7 +39,7 @@ function StoryTitleInput({
         onChange={handleChange}
         value={value}
       />
-      <p className="text-red-600 text-xs">{error}</p>
+      {error && <p className="text-red-600 text-xs">{error}</p>}
     </>
   );
 }

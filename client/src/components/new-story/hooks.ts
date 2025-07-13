@@ -30,7 +30,7 @@ export const useUploadImage = () => {
     mutationKey: ["blogs", "create", "new", "image"],
     mutationFn: uploadImage,
     onError() {
-      toast.error("Failed to create new story, please try again");
+      toast.error("Failed to upload image, please try again");
     },
   });
 };
