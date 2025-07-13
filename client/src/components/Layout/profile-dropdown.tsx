@@ -42,7 +42,10 @@ const dropdownVariants: Variants = {
 
 function maskEmail(email: string) {
   const [username, provider] = email.split("@");
-  const maskedUsername = username.slice(0, 2) + "*".repeat(username.length - 2);
+  const maskedUsername =
+    username.length <= 2
+      ? username
+      : username.slice(0, 2) + "*".repeat(username.length - 2);
   return `${maskedUsername}@${provider}`;
 }
 
@@ -106,7 +109,7 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
             {/* User Profile Section */}
             <div className="px-4 py-3 border-b border-gray-100">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full bg-pink-500 text-white font-medium text-xl flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full text-white font-medium text-xl flex items-center justify-center">
                   <img
                     src={user.avatar}
                     alt={user.name}
@@ -127,9 +130,9 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
 
             {/* Menu Items */}
             <div className="py-2">
-              {menuItems.map((item, index) => (
+              {menuItems.map((item) => (
                 <button
-                  key={index}
+                  key={item.label}
                   onClick={() => {
                     item.onClick();
                     setIsOpen(false);

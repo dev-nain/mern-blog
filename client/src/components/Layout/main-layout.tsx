@@ -37,7 +37,7 @@ const MainLayout = () => {
   return (
     <>
       <header>
-        <nav className="flex justify-between px-10 py-2 border-b border-b-grey">
+        <nav className="flex justify-between px-10 py-2 border-b border-b-gray-200">
           <div className="flex space-x-2">
             <Button
               onClick={handleSidebarIconClick}
@@ -109,7 +109,7 @@ export default MainLayout;
 function LoadingScreen() {
   return (
     <main className="h-screen w-full flex flex-col justify-center items-center bg-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-grey-50 to-indigo-100"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-gray-50 to-indigo-100"></div>
 
       <img
         src="/logo.png"

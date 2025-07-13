@@ -83,7 +83,7 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
           <nav className="flex-1 px-4 py-6">
             <ul className="space-y-2">
               {navigationItems.map((item) => (
-                <NavItem item={item} />
+                <NavItem key={item.label} item={item} />
               ))}
             </ul>
           </nav>
