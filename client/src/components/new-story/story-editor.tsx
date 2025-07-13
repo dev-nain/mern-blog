@@ -1,18 +1,32 @@
 import { BlockNoteView } from "@blocknote/mantine";
 import { useCreateBlockNote } from "@blocknote/react";
-import "@blocknote/core/fonts/inter.css";
-import "@blocknote/mantine/style.css";
 import type { BlockNoteEditor } from "@blocknote/core";
 import { useEffect } from "react";
+import { codeBlock } from "@blocknote/code-block";
+import { cn } from "@/lib/class-name";
+import { en } from "@blocknote/core/locales";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/mantine/style.css";
 
 export default function StoryEditor({
   onChange,
   initialContent,
+  className,
 }: {
   onChange: (document: BlockNoteEditor["document"]) => void;
   initialContent: BlockNoteEditor["document"] | null;
+  className?: string;
 }) {
+  const locale = en;
   const editor = useCreateBlockNote({
+    dictionary: {
+      ...locale,
+      placeholders: {
+        ...locale.placeholders,
+        default: "Tell your story...",
+      },
+    },
+    codeBlock,
     ...(initialContent ? { initialContent } : {}),
   });
 
@@ -25,7 +39,7 @@ export default function StoryEditor({
   return (
     <BlockNoteView
       editor={editor}
-      className="max-w-3xl mx-auto"
+      className={cn("font-gelasio text-zinc-800", className)}
       onChange={() => onChange(editor.document)}
     />
   );

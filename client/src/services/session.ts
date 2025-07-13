@@ -33,4 +33,4 @@ export function isTokenExpired(): boolean {
   const expiry = localStorage.getItem(EXPIRY_KEY);
   if (!expiry) return true;
   return Date.now() > Number(expiry);
-} 
+}

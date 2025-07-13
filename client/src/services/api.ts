@@ -1,5 +1,5 @@
 import { client, getAuthorizationHeader } from "./api-client";
-import type { AuthResponse, User } from "./types";
+import type { AuthResponse, Blog, CreateBlogPayload, User } from "./types";
 
 type AuthPayload = {
   email: string;
@@ -23,6 +23,34 @@ type ProfileResponse = {
 
 export const getProfile = async () => {
   const response = await client.get<ProfileResponse>("/v1/auth/me", {
+    headers: getAuthorizationHeader(),
+  });
+  return response.data;
+};
+
+type UploadFileResponse = {
+  filePath: string;
+};
+export const uploadImage = async (formdata: FormData) => {
+  const response = await client.post<UploadFileResponse>(
+    "/v1/blogs/upload-image",
+    formdata,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        ...getAuthorizationHeader(),
+      },
+    }
+  );
+  return response.data;
+};
+
+type BlogResponse = {
+  data: Blog
+}
+
+export const createBlog = async (blog: CreateBlogPayload) => {
+  const response = await client.post<BlogResponse>("/v1/blogs", blog, {
     headers: getAuthorizationHeader(),
   });
   return response.data;

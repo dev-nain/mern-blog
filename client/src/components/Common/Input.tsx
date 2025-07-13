@@ -5,6 +5,7 @@ import { useState, type ComponentProps } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { DynamicIcon } from "lucide-react/dynamic";
 import clsx from "clsx";
+import { cn } from "@/lib/class-name";
 
 interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
@@ -39,7 +40,7 @@ export const Input: React.FC<InputProps> = ({
         <input
           type={inputType}
           onChange={onChange}
-          className={clsx(
+          className={cn(
             "input-field",
             {
               "pl-10": icon,
