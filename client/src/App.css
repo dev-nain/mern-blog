@@ -33,4 +33,12 @@
   .input-icon {
     @apply absolute left-4 top-1/2 -translate-y-1/2;
   }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

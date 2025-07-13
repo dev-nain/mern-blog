@@ -1,5 +1,5 @@
 import { Button } from "@/components/Common/Button";
-import { AppLogo } from "@/components/Layout/MainLayout";
+import { AppLogo } from "@/components/Layout/main-layout";
 
 const Topbar = ({
   onPublish,
