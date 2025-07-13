@@ -13,6 +13,7 @@ type AuthContextType = {
   user: User | null;
   setUser: (user: User) => void;
   isLoading: boolean;
+  logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -39,10 +40,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }, []);
 
+  function logout() {
+    setUser(null);
+    removeToken();
+  }
+
   const value = {
     user,
     setUser,
     isLoading,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
