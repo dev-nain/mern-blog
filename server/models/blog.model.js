@@ -37,6 +37,7 @@ const blogSchema = new Schema(
       text: String,
     },
     summary: { type: String, maxLength: 200 },
+    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true,

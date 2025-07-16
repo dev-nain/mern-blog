@@ -38,6 +38,13 @@ const userSchema = new Schema(
       default:
         "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro",
     },
+    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    bio: {
+      type: String,
+      maxlength: 500,
+      trim: true,
+    },
   },
   {
     timestamps: true,

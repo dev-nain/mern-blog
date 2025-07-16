@@ -7,8 +7,11 @@ import {
   updateBlog,
   deleteBlog,
   uploadImage,
+  getUserBlogs,
 } from "../../controllers/blogs.controller.js";
-import authorize from "../../middleware/auth.middleware.js";
+import authorize, {
+  optionalAuthorize,
+} from "../../middleware/auth.middleware.js";
 
 const storage = Multer.memoryStorage();
 
@@ -29,7 +32,8 @@ const multer = Multer({
 
 const router = Router();
 
-router.get("/", getBlogs);
+router.get("/", optionalAuthorize, getBlogs);
+router.get("/user/:username", authorize, getUserBlogs);
 router.post("/", authorize, createBlog);
 router.get("/:slug", getBlogBySlug);
 router.put("/:slug", updateBlog);
