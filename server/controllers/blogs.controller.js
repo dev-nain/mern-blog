@@ -1,6 +1,6 @@
 import { imagekit } from "../config/image-kit.js";
 import catchAsync from "../utils/catch-async.js";
-import { blogSchema } from "../validators/blog.js";
+import { blogSchema, userBlogsQueryParams } from "../validators/blog.js";
 import {
   calculateReadingTime,
   extractTextFromBlocks,
@@ -8,17 +8,126 @@ import {
 import Tag from "../models/tag.model.js";
 import Blog from "../models/blog.model.js";
 import ApiError from "../utils/api-error.js";
+import User from "../models/user.model.js";
+import { paginationParams } from "../validators/pagination.js";
+import Interaction from "../models/interaction.model.js";
+
+const buildBaseBlogQuery = (skip, limit) => {
+  return Blog.find()
+    .populate("tags", "name")
+    .populate("author", "username name avatar")
+    .select("-content -__v")
+    .sort({ publishedAt: -1, _id: -1 })
+    .skip(skip)
+    .limit(limit);
+};
 
 export const getBlogs = catchAsync(async (req, res) => {
-  const publishedBlogs = await Blog.find({
-    publishedAt: { $ne: null, $lte: new Date() },
-  })
-    .sort({ createdAt: -1 })
-    .populate("tags")
-    .populate("author", "username name avatar");
+  const params = paginationParams.parse(req.query);
+  const skip = (params.page - 1) * params.limit;
 
-  res.json({
-    data: publishedBlogs,
+  const where = { publishedAt: { $ne: null, $lte: new Date() } };
+
+  const blogs = await buildBaseBlogQuery(skip, params.limit).find(where);
+  const totalItems = await Blog.countDocuments(where);
+
+  return res.json({
+    data: blogs,
+    page: params.page,
+    limit: params.limit,
+    totalItems,
+  });
+});
+
+export const getUserRecommendedBlogs = catchAsync(async (req, res) => {
+  const user = await getUserByUsername(req.params.username);
+
+  if (!user) {
+    throw new ApiError(400, "User not found");
+  }
+
+  const viewedBlogIds = await Interaction.find({ user: user._id }).distinct(
+    "blog"
+  );
+
+  const tagAgg = await Interaction.aggregate([
+    { $match: { user: user._id } },
+    {
+      $lookup: {
+        from: "blogs",
+        localField: "blog",
+        foreignField: "_id",
+        as: "blogInfo",
+      },
+    },
+    { $unwind: "$blogInfo" },
+    { $unwind: "$blogInfo.tags" },
+    {
+      $group: {
+        _id: "$blogInfo.tags",
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { count: -1 } },
+    { $limit: 5 },
+  ]);
+
+  const topTagIds = tagAgg.map((t) => t._id);
+
+  const recommendedWhere = {
+    publishedAt: { $ne: null, $lte: new Date() },
+    tags: { $in: topTagIds },
+    _id: { $nin: viewedBlogIds },
+  };
+
+  const recommendedBlogs = await buildBaseBlogQuery(0, 5).find(
+    recommendedWhere
+  );
+  const totalItems = await Blog.countDocuments(recommendedWhere);
+
+  return res.json({
+    data: recommendedBlogs,
+  });
+});
+
+const getUserByUsername = async (username) => {
+  return await User.findOne({ username });
+};
+
+export const getUserBlogs = catchAsync(async (req, res) => {
+  const params = userBlogsQueryParams.parse(req.query);
+  const skip = (params.page - 1) * params.limit;
+
+  const author = await getUserByUsername(req.params.username);
+
+  if (!author) {
+    throw new ApiError(400, "User not found");
+  }
+
+  const where = { author: author._id };
+
+  if (!author._id.equals(req.user._id) && params.type === "draft") {
+    throw new ApiError(403, "Forbidden");
+  }
+
+  where.publishedAt =
+    params.type === "draft" ? null : { $ne: null, $lte: new Date() };
+
+  const blogs = await Blog.find(where)
+    .select({ content: 0, __v: 0 })
+    .populate("tags", "name")
+    .populate("author", "username name avatar")
+    .sort({ publishedAt: -1, _id: -1 })
+    .skip(skip)
+    .limit(params.limit);
+
+  const totalItems = await Blog.countDocuments(where);
+
+  return res.send({
+    data: blogs,
+    page: params.page,
+    limit: params.limit,
+    totalItems,
   });
 });
 
@@ -70,11 +179,27 @@ export const createBlog = catchAsync(async (req, res) => {
   res.status(201).json({ data: populatedBlog });
 });
 
-export async function getBlogBySlug(req, res) {
-  res.json({
-    message: "Blog fetched successfully",
+export const getBlogBySlug = catchAsync(async (req, res) => {
+  const blog = await Blog.findOne({ slug: req.params.slug })
+    .populate("tags", "name")
+    .populate("author", "username name avatar");
+
+  if (!blog) {
+    throw new ApiError(404, "No such Blog found");
+  }
+
+  if (req.user) {
+    await Interaction.findOneAndUpdate(
+      { user: req.user._id, blog: blog._id },
+      { viewedAt: new Date() },
+      { upsert: true, setDefaultsOnInsert: true }
+    );
+  }
+
+  res.send({
+    data: blog,
   });
-}
+});
 
 export async function updateBlog(req, res) {
   res.json({
@@ -88,10 +213,10 @@ export async function deleteBlog(req, res) {
   });
 }
 
-export const uploadImage = catchAsync(async (req, res) => {
+export const uploadBlogThumbnail = catchAsync(async (req, res) => {
   const image = req.file;
-  if(!image) {
-    throw new ApiError(400, "No image file provided")
+  if (!image) {
+    throw new ApiError(400, "No image file provided");
   }
   const uploadedImage = await imagekit.upload({
     file: image.buffer,
@@ -101,7 +226,7 @@ export const uploadImage = catchAsync(async (req, res) => {
     useUniqueFileName: true,
   });
 
-  res.status(200).json({
-    filePath: uploadedImage.filePath,
+  res.status(201).json({
+    fileUrl: uploadedImage.url,
   });
 });

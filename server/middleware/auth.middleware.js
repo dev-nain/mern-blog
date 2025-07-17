@@ -31,4 +31,25 @@ const authorize = async (req, res, next) => {
   }
 };
 
+export const optionalAuthorize = async (req, res, next) => {
+  try {
+    let token;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+
+      const decoded = jwt.verify(token, config.jwt_secret);
+      const user = await User.findById(decoded.userId);
+
+      req.user = user;
+    }
+    next();
+  } catch (error) {
+    next();
+  }
+};
+
 export default authorize;
