@@ -12,5 +12,5 @@ export const blogSchema = z.object({
 
 export const userBlogsQueryParams = paginationParams.extend({
   q: z.string().optional(),
-  type: z.enum(["draft", "published"]),
+  type: z.enum(["draft", "publish"]),
 });

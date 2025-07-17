@@ -51,6 +51,9 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.index({ followers: 1 });
+userSchema.index({ following: 1 });
+
 userSchema.pre("save", async function (next) {
   // Generate a username if it doesn't exist
   if (!this.username) {

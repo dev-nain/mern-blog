@@ -25,6 +25,9 @@ const listSchema = new Schema(
   }
 );
 
+listSchema.index({ user: 1, createdAt: -1 });
+listSchema.index({ user: 1, name: 1 });
+
 const List = model("List", listSchema);
 
 export default List;
