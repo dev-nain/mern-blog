@@ -3,7 +3,7 @@ import { Router } from "express";
 import blogRouter from "./blogs.route.js";
 import authRouter from "./auth.route.js";
 import userRouter from "./users.route.js";
-import uploadRouter from "./users.route.js";
+import uploadRouter from "./uploads.route.js";
 
 const router = Router();
 

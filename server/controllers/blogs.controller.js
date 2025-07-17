@@ -51,7 +51,7 @@ export const getUserRecommendedBlogs = catchAsync(async (req, res) => {
   );
 
   const tagAgg = await Interaction.aggregate([
-    { $match: { user: userId } },
+    { $match: { user: user._id } },
     {
       $lookup: {
         from: "blogs",
@@ -80,16 +80,13 @@ export const getUserRecommendedBlogs = catchAsync(async (req, res) => {
     _id: { $nin: viewedBlogIds },
   };
 
-  const recommendedBlogs = await buildBaseBlogQuery(skip, params.limit).find(
+  const recommendedBlogs = await buildBaseBlogQuery(0, 5).find(
     recommendedWhere
   );
   const totalItems = await Blog.countDocuments(recommendedWhere);
 
   return res.json({
     data: recommendedBlogs,
-    page: params.page,
-    limit: params.limit,
-    totalItems,
   });
 });
 
