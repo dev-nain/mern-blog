@@ -29,11 +29,11 @@ export const getProfile = async () => {
 };
 
 type UploadFileResponse = {
-  filePath: string;
+  fileUrl: string;
 };
 export const uploadImage = async (formdata: FormData) => {
   const response = await client.post<UploadFileResponse>(
-    "/v1/blogs/upload-image",
+    "/v1/uploads/blog-thumbnail",
     formdata,
     {
       headers: {
@@ -46,8 +46,8 @@ export const uploadImage = async (formdata: FormData) => {
 };
 
 type BlogResponse = {
-  data: Blog
-}
+  data: Blog;
+};
 
 export const createBlog = async (blog: CreateBlogPayload) => {
   const response = await client.post<BlogResponse>("/v1/blogs", blog, {
@@ -55,3 +55,12 @@ export const createBlog = async (blog: CreateBlogPayload) => {
   });
   return response.data;
 };
+
+type BlogsResponse = {
+  data: Blog[];
+  page: number;
+  limit: number;
+  totalItems: number;
+};
+export const getAllBlogs = async (page = 1) =>
+  (await client.get<BlogsResponse>("/v1/blogs", { params: { page } })).data;

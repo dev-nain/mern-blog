@@ -96,7 +96,7 @@ const MainLayout = () => {
           isMobile={isMobile}
           onClose={handleSidebarClose}
         />
-        <div className="overflow-y-scroll w-full hide-scrollbar p-6">
+        <div className="w-full">
           <Outlet />
         </div>
       </main>
@@ -127,8 +127,7 @@ function LoadingScreen() {
 export function AppLogo() {
   return (
     <Link to="/" className="space-x-2 flex items-center font-gelasio ">
-      <img src="/logo.png" alt="Brand Image" className="size-8" />
-      <span className="text-zinc-800 font-bold tracking-widest">DevBlog</span>
+      <img src="/logo-text.svg" alt="Logo image" className="w-36 h-10" />
     </Link>
   );
 }

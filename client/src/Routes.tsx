@@ -11,7 +11,6 @@ import SettingsPage from "./pages/Settings";
 
 // Components Imports
 import MainLayout from "@/components/Layout/main-layout";
-import ProtectedRoute from "./components/Layout/protected-route";
 import LibraryPage from "./pages/Library";
 import ProfilePage from "./pages/Profile";
 
@@ -29,14 +28,7 @@ const AppRoutes = () => {
           <Route path="/me/setting" element={<SettingsPage />} />
           <Route path="/profile/:username" element={<ProfilePage />} />
         </Route>
-        <Route
-          path="new-story"
-          element={
-            <ProtectedRoute>
-              <NewStoryPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="new-story" element={<NewStoryPage />} />
       </Routes>
     </AnimatePresence>
   );

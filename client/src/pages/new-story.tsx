@@ -1,3 +1,4 @@
+import { withAuth } from "@/components/Layout/protected-route";
 import PublishForm from "@/components/new-story/publish-form";
 import StoryEditor from "@/components/new-story/story-editor";
 import StoryThumbnailPicker from "@/components/new-story/story-thumbnal-picker";
@@ -27,7 +28,7 @@ const initialState: StoryState = {
   type: null,
 };
 
-const NewStoryPage = () => {
+const Page = () => {
   const [story, setStory] = useState<StoryState>(initialState);
 
   const handleFormChange =
@@ -76,5 +77,7 @@ const NewStoryPage = () => {
     </main>
   );
 };
+
+const NewStoryPage = withAuth(Page);
 
 export default NewStoryPage;

@@ -28,7 +28,6 @@ export type Blog = {
   summary: string;
   type: "publish" | "draft";
   tags: string[];
-  content: string;
   thumbnail: string;
   readingTime: { minutes: number; text: string };
   author: User;

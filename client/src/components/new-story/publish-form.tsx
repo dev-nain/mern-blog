@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/class-name";
 import { formVariants } from "./animation-variant";
 import TagsInput from "./tag-input";
@@ -49,11 +49,11 @@ const PublishForm = ({ story, onStoryChange, onClose }: Props) => {
     const formdata = new FormData();
     formdata.set("image", validation.data.thumbnail);
     const res = await uploadImage(formdata);
-    if (!res?.filePath) {
+    if (!res?.fileUrl) {
       toast.error("Failed to create blog");
       return;
     }
-    addBlog({ ...validation.data, thumbnail: res.filePath });
+    addBlog({ ...validation.data, thumbnail: res.fileUrl });
   }
 
   function getButtonLabel() {

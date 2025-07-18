@@ -1,7 +1,33 @@
-import React from "react";
+import {
+  MainContent,
+  PageLayout,
+  RightSidebar,
+} from "@/components/Layout/index.tsx";
+import { useGetAllBlogs } from "@/lib/queries.ts";
+import BlogList from "@/components/blog-list/list";
+import { withAuth } from "@/components/Layout/protected-route";
 
-const HomePage = () => {
-  return <>Home</>;
+const Page = () => {
+  const { data, hasNextPage, fetchNextPage, isLoading, isFetching } =
+    useGetAllBlogs();
+
+  const blogs = data?.pages.map((page) => [...page.data]).flat() || [];
+  return (
+    <PageLayout>
+      <MainContent>
+        <BlogList
+          blogs={blogs}
+          hasMore={hasNextPage}
+          onEndReached={fetchNextPage}
+          isFetching={isFetching}
+          isLoading={isLoading}
+        />
+      </MainContent>
+      <RightSidebar></RightSidebar>
+    </PageLayout>
+  );
 };
+
+const HomePage = withAuth(Page);
 
 export default HomePage;

@@ -1,18 +1,24 @@
-import { useEffect, type PropsWithChildren } from "react";
+import React, { useEffect, type ComponentType } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/context/auth-context";
 
-const ProtectedRoute = ({ children }: PropsWithChildren) => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  useEffect(() => {
+export function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
+  const ComponentWithAuth = (props: P) => {
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (!user) {
+        navigate("/sign-in");
+      }
+    }, [user, navigate]);
+
     if (!user) {
-      navigate("/sign-up");
+      return null;
     }
-  }, [user, navigate]);
-  if (!user) {
-    return null; // or a loading spinner
-  }
-  return children;
-};
-export default ProtectedRoute;
+
+    return <WrappedComponent {...props} />;
+  };
+
+  return ComponentWithAuth;
+}
