@@ -30,7 +30,7 @@ const BlogList = ({
     if (isIntersecting && !isFetching && hasMore) {
       onEndReached();
     }
-  }, [isIntersecting, isFetching, hasMore]);
+  }, [isIntersecting, isFetching, hasMore, onEndReached]);
 
   if (!isLoading && blogs.length === 0) {
     return <EmptyBlogList />;

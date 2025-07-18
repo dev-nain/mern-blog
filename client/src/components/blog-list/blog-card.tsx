@@ -17,6 +17,9 @@ const BlogCard = ({ blog }: Props) => {
             className="w-5 h-5 bg-gray-300 rounded-full"
             src={blog.author.avatar}
             alt={`${blog.author.name} avatar`}
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
           />
           <span>{blog.author.name}</span>
         </div>
@@ -60,6 +63,7 @@ const BlogCard = ({ blog }: Props) => {
           src={blog.thumbnail}
           alt={blog.title}
           className="w-full h-full object-cover"
+          onError={(e) => (e.currentTarget.src = "/placeholder-image")}
         />
       </div>
     </article>
