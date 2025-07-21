@@ -6,12 +6,17 @@ import {
 import { useGetAllBlogs } from "@/lib/queries.ts";
 import BlogList from "@/components/blog-list/list";
 import { withAuth } from "@/components/Layout/protected-route";
+import { useMemo } from "react";
 
 const Page = () => {
   const { data, hasNextPage, fetchNextPage, isLoading, isFetching } =
     useGetAllBlogs();
 
-  const blogs = data?.pages.map((page) => [...page.data]).flat() || [];
+  const blogs = useMemo(
+    () => data?.pages.map((page) => [...page.data]).flat() || [],
+    [data?.pages]
+  );
+
   return (
     <PageLayout>
       <MainContent>

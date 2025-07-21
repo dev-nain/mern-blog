@@ -32,9 +32,11 @@ export class ErrorBoundary extends Component<Props, State> {
 
     if (hasError) {
       return (
-        <main className="p-8 text-center text-gray-600 flex flex-col space-y-3 justify-center h-screen items-center">
+        <main className="p-8 text-center text-gray-600 flex flex-col space-y-3 justify-center h-screen items-center max-w-3xl mx-auto">
           <h1 className="text-2xl font-semibold mb-2">Something went wrong.</h1>
-          <pre className="text-sm text-gray-700">{error?.message}</pre>
+          <pre className="text-sm text-gray-700 text-wrap">
+            {error?.message}
+          </pre>
           <Button onClick={() => window.location.reload()}>Reload</Button>
         </main>
       );

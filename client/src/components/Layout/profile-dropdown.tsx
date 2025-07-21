@@ -8,6 +8,7 @@ import { Settings, BarChart3, LogOut, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/context/auth-context";
 import type { User } from "@/services/types";
+import UserAvatar from "../Common/user-avatar";
 
 interface MenuItem {
   icon: React.ReactNode;
@@ -108,24 +109,7 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
           >
             {/* User Profile Section */}
             <div className="px-4 py-3 border-b border-gray-100">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full text-white font-medium text-xl flex items-center justify-center">
-                  <img
-                    src={user.avatar}
-                    alt={user.name}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <div className="font-medium text-gray-900">{user.name}</div>
-                  <button
-                    onClick={() => navigate(`/profile/${user.username}`)}
-                    className="cursor-pointer text-sm text-gray-600 hover:text-gray-800 transition-colors"
-                  >
-                    View profile
-                  </button>
-                </div>
-              </div>
+              <UserAvatar user={user} showViewProfile size={10} />
             </div>
 
             {/* Menu Items */}

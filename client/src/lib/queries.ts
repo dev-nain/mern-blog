@@ -1,5 +1,5 @@
-import { getAllBlogs } from "@/services/api";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { getAllBlogs, getBlog } from "@/services/api";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const useGetAllBlogs = () =>
   useInfiniteQuery({
@@ -13,4 +13,10 @@ export const useGetAllBlogs = () =>
       }
       return lastPage.page + 1;
     },
+  });
+
+export const useGetBlogBySlug = (slug: string) =>
+  useQuery({
+    queryKey: ["blog", slug],
+    queryFn: () => getBlog(slug),
   });

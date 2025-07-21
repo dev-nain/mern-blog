@@ -90,7 +90,7 @@ const MainLayout = () => {
           </ul>
         </nav>
       </header>
-      <main className="flex overflow-hidden h-[calc(100vh-3.5rem)]">
+      <main className="flex overflow-hidden h-[calc(100vh-4rem)]">
         <Sidebar
           isOpen={sidebarOpen}
           isMobile={isMobile}

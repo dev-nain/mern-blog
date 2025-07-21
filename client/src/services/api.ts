@@ -1,5 +1,11 @@
 import { client, getAuthorizationHeader } from "./api-client";
-import type { AuthResponse, Blog, CreateBlogPayload, User } from "./types";
+import type {
+  AuthResponse,
+  Blog,
+  BlogDetail,
+  CreateBlogPayload,
+  User,
+} from "./types";
 
 type AuthPayload = {
   email: string;
@@ -62,5 +68,13 @@ type BlogsResponse = {
   limit: number;
   totalItems: number;
 };
+
 export const getAllBlogs = async (page = 1) =>
   (await client.get<BlogsResponse>("/v1/blogs", { params: { page } })).data;
+
+type BlogDetailsResponse = {
+  data: BlogDetail;
+};
+
+export const getBlog = async (slug: string) =>
+  (await client.get<BlogDetailsResponse>(`/v1/blogs/${slug}`)).data;

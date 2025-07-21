@@ -3,6 +3,7 @@ import { Heart, MessageCircle, Bookmark, ClockIcon } from "lucide-react";
 import { Button } from "../Common/Button";
 import { getDateDistance } from "@/lib/date-utils";
 import { Link } from "react-router";
+import UserAvatar from "../Common/user-avatar";
 
 type Props = {
   blog: Blog;
@@ -12,19 +13,14 @@ const BlogCard = ({ blog }: Props) => {
   return (
     <article className="flex gap-x-16 pb-8">
       <div className="flex-1">
-        <div className="flex items-center space-x-2 text-sm text-gray-700 mb-2">
-          <img
-            className="w-5 h-5 bg-gray-300 rounded-full"
-            src={blog.author.avatar}
-            alt={`${blog.author.name} avatar`}
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-          />
-          <span>{blog.author.name}</span>
-        </div>
+        <UserAvatar
+          size={5}
+          user={blog.author}
+          className="mb-4 space-x-1"
+          textClass="text-gray-600 font-medium text-sm"
+        />
 
-        <Link to={`/@${blog.author.username}/${blog.slug}`}>
+        <Link to={`/blog/${blog.slug}`}>
           <h2 className="text-2xl font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600">
             {blog.title}
           </h2>

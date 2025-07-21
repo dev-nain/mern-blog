@@ -33,3 +33,8 @@ export type Blog = {
   author: User;
   publishedAt: string | null;
 };
+
+export type BlogDetail = Blog & {
+  content: string;
+  publishedAt: string;
+};
