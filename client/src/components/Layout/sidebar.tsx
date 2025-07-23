@@ -83,7 +83,7 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
           <nav className="flex-1 px-4 py-6">
             <ul className="space-y-2">
               {navigationItems.map((item) => (
-                <NavItem key={item.label} item={item} />
+                <NavItem key={item.label} item={item} onClick={onClose} />
               ))}
             </ul>
           </nav>
@@ -93,11 +93,18 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
   );
 }
 
-function NavItem({ item }: { item: (typeof navigationItems)[number] }) {
+function NavItem({
+  item,
+  onClick,
+}: {
+  item: (typeof navigationItems)[number];
+  onClick: () => void;
+}) {
   return (
     <li key={item.label}>
       <NavLink
         to={item.href}
+        onClick={onClick}
         className={({ isActive }) =>
           cn(
             "flex items-center space-x-3 px-3 py-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors",

@@ -28,9 +28,13 @@ export type Blog = {
   summary: string;
   type: "publish" | "draft";
   tags: string[];
-  content: string;
   thumbnail: string;
   readingTime: { minutes: number; text: string };
   author: User;
   publishedAt: string | null;
+};
+
+export type BlogDetail = Blog & {
+  content: string;
+  publishedAt: string;
 };

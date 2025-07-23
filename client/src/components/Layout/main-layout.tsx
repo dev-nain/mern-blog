@@ -50,15 +50,15 @@ const MainLayout = () => {
             <AppLogo />
           </div>
 
-          <ul className="flex items-center space-x-1">
+          <ul className="flex items-center space-x-6">
             <li>
               <LinkButton
                 to="/new-story"
                 variant="naked"
                 size="sm"
-                className="hover:bg-transparent "
+                className="hover:bg-transparent px-0"
               >
-                <PencilIcon size={14} className="mr-2" />
+                <PencilIcon size={12} className="mr-2" />
                 Write
               </LinkButton>
             </li>
@@ -78,7 +78,11 @@ const MainLayout = () => {
             {user && (
               <>
                 <li>
-                  <LinkButton to="/notification" variant={"naked"}>
+                  <LinkButton
+                    to="/notification"
+                    variant={"naked"}
+                    className="px-0"
+                  >
                     <BellIcon className="size-5 text-gray-500" />
                   </LinkButton>
                 </li>
@@ -90,13 +94,13 @@ const MainLayout = () => {
           </ul>
         </nav>
       </header>
-      <main className="flex overflow-hidden h-[calc(100vh-3.5rem)]">
+      <main className="flex overflow-hidden h-[calc(100vh-4rem)]">
         <Sidebar
           isOpen={sidebarOpen}
           isMobile={isMobile}
           onClose={handleSidebarClose}
         />
-        <div className="overflow-y-scroll w-full hide-scrollbar p-6">
+        <div className="w-full">
           <Outlet />
         </div>
       </main>
@@ -127,8 +131,7 @@ function LoadingScreen() {
 export function AppLogo() {
   return (
     <Link to="/" className="space-x-2 flex items-center font-gelasio ">
-      <img src="/logo.png" alt="Brand Image" className="size-8" />
-      <span className="text-zinc-800 font-bold tracking-widest">DevBlog</span>
+      <img src="/logo-text.svg" alt="Logo image" className="w-36 h-10" />
     </Link>
   );
 }
