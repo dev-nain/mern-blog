@@ -1,18 +1,26 @@
 import { cn } from "@/lib/class-name";
 import type { PropsWithClassname } from "@/types";
-import React, { type PropsWithChildren } from "react";
+import React, { type ComponentProps, type PropsWithChildren } from "react";
 
-export function PageLayout({ children }: { children: React.ReactNode }) {
-  return <div className="flex h-full w-full">{children}</div>;
+export function PageLayout({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={cn("flex h-full w-full", className)}>{children}</div>;
 }
 
 export function MainContent({
   children,
   className,
-}: PropsWithChildren & PropsWithClassname) {
+  ...rest
+}: PropsWithChildren & PropsWithClassname & ComponentProps<"div">) {
   return (
     <div
       className={cn("p-20 overflow-y-scroll hide-scrollbar flex-1", className)}
+      {...rest}
     >
       {children}
     </div>

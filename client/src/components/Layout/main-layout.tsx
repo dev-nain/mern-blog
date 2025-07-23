@@ -50,15 +50,15 @@ const MainLayout = () => {
             <AppLogo />
           </div>
 
-          <ul className="flex items-center space-x-1">
+          <ul className="flex items-center space-x-6">
             <li>
               <LinkButton
                 to="/new-story"
                 variant="naked"
                 size="sm"
-                className="hover:bg-transparent "
+                className="hover:bg-transparent px-0"
               >
-                <PencilIcon size={14} className="mr-2" />
+                <PencilIcon size={12} className="mr-2" />
                 Write
               </LinkButton>
             </li>
@@ -78,7 +78,11 @@ const MainLayout = () => {
             {user && (
               <>
                 <li>
-                  <LinkButton to="/notification" variant={"naked"}>
+                  <LinkButton
+                    to="/notification"
+                    variant={"naked"}
+                    className="px-0"
+                  >
                     <BellIcon className="size-5 text-gray-500" />
                   </LinkButton>
                 </li>

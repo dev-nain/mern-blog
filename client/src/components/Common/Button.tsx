@@ -1,9 +1,9 @@
 import { cva } from "class-variance-authority";
-import clsx from "clsx";
 import { Link } from "react-router";
 import { Loader } from "lucide-react";
 import type { ComponentProps } from "react";
 import type { VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/class-name";
 
 const buttonVariants = cva(
   "inline-flex font-inter items-center justify-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer disabled:cursor-not-allowed",
@@ -47,7 +47,7 @@ export const Button = ({
 }: Props & ComponentProps<"button">) => {
   return (
     <button
-      className={clsx(
+      className={cn(
         buttonVariants({ variant, size }),
         className,
         loading && "opacity-70 cursor-not-allowed"
@@ -70,7 +70,7 @@ export const LinkButton = ({
 }: Props & ComponentProps<typeof Link>) => {
   return (
     <Link
-      className={clsx(buttonVariants({ variant, size }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     >
       {children}

@@ -46,7 +46,7 @@ const BlogList = ({
 
   return (
     <>
-      <ul className="max-w-3xl space-y-8 mx-auto divide-y-1 divide-gray-200">
+      <ul className="space-y-8 divide-y-1 divide-gray-200">
         {isLoading ? <BlogListSkeleton /> : renderBlogs()}
         {hasMore && isFetching && <BlogListSkeleton length={2} />}
         {!hasMore && showFooter && (
